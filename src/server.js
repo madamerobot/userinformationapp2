@@ -38,7 +38,7 @@ app.get('/', function(req, res){
   	if (err){
 		throw err;
 	}
-		allUsers = JSON.parse(data);
+		var allUsers = JSON.parse(data);
 		console.log("JSON file has been parsed.")
 		res.render("allusers",{
   		users: allUsers
