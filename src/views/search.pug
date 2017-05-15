@@ -1,5 +1,7 @@
+doctype html
 html
 	body
-		title Search for a user
-		form(action='/', method='post')
-			input(name='searchfield', value='Andreas')
+		p Search for a user:
+		form(method='POST' action='/search')
+			input(type='text', placeholder='Your name', name='searchfield')
+			input(type='submit', value='Search for this user')

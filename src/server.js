@@ -6,7 +6,6 @@
 // search for users
 // add new new users to your users file.
 
-
 //---------CONFIG AND LIBRARIES-----------------
 
 //Requiring express library
@@ -22,26 +21,29 @@ const fs = require('fs');
 const bodyParser = require('body-parser');
 //Initialising body-parser library
 app.use('/', bodyParser())
+app.use(bodyParser.urlencoded({
+	extended: false
+}))
 
 app.set('views', './views');
 app.set('view engine', 'pug');
 
 // Part 0 Create one route:
-
 // route 1: renders a page that displays all your users.
 
 app.get('/', function(req, res){
 
-  fs.readFile('.././resources/users.json', 'utf-8' (err, data) => {
+  fs.readFile('.././resources/users.json', (err, data) => {
   	
   	if (err){
 		throw err;
 	}
-		var allUsers = JSON.parse(data);
+		allUsers = JSON.parse(data);
+		console.log("JSON file has been parsed.")
+		res.render("allusers",{
+  		users: allUsers
+  		});
 	});
-
-	res.render("allusers");
-
 });
 	
 // Part 1 Create two more routes:
@@ -55,25 +57,39 @@ app.get('/search', function(req, res){
 //new page. Users should be matched based on whether either their first or last name 
 //contains the input string.
 
-app.post('/results', function(req, res){
+app.post('/search', function(req, res){
 	
-	fs.readFile('.././resources/users.json', 'utf-8' (err, data) => {
+	fs.readFile('.././resources/users.json', 'utf-8', (err, data) => {
   	
   	if (err){
 		throw err;
 	}
-		var allUsers = JSON.parse(data);
-	});
 
-	var query = request.body.searchfield;
+	var allUsers = JSON.parse(data);
+	var query = req.body.searchfield;
+	console.log("This is your seach request: "+query);
 
-	for (var i = 0; i < query.length; i++) {
-		if (query[i] === allUsers.firstname || query[i] === allUsers.lastname){
-			res.render("results");
-		}
-	}
+	for (var i = 0; i < allUsers.length; i++) {
+		if (allUsers[i].firstname === query || allUsers[i].lastname === query){
+			
+			console.log("We found a matching user.")
 
-});
+			var firstname = allUsers[i].firstname;
+			var lastname = allUsers[i].lastname;
+			var email = allUsers[i].email;
+			
+			res.render("results", {
+				user: [firstname, lastname, email]
+			})
+
+		} else {
+			res.send("No matching user found");
+		}	
+	}//closing for loop
+
+ 	});//closing fs.readFile
+
+});//closing app.post
 
 // Part 2 Create two more routes:
 // route 4: renders a page with three forms on it (first name, last name, and email) that 
@@ -89,6 +105,15 @@ app.get('/addUser', function(req, res){
 
 app.post('/addUser', function(req, res){
 
+	var allUsers = [];
+
+	fs.readFile('.././resources/users.json', (err, data) => {
+  	
+  	if (err){
+		throw err;
+	}
+	allUsers = JSON.parse(data);
+
 	var firstname = req.body.firstname;
 	var lastname = req.body.lastname;
 	var email = req.body.email;
@@ -99,26 +124,26 @@ app.post('/addUser', function(req, res){
 		email: email
 	}
 
-	fs.readFile('.././resources/users.json', 'utf-8' (err, data) => {
-  	
-  	if (err){
-		throw err;
-	}
-	var allUsers = JSON.parse(data);
 	allUsers.push(newUser);
-	});
 
-	fs.writeFile('.././resources/users.json', (JSON.stringify(allUsers)) (err, data) => {
+	console.log("This is your new user "+(JSON.stringify(newUser)));
 
-		if (err) throw err;
+		fs.writeFile('.././resources/users.json', (JSON.stringify(allUsers)) , (err, data) => {
+
+		 if (err){
+			throw err;
+		}
 
 		console.log('Your new userbase has been written into the JSON file')
-	})
 
-	res.send("All done");
+		res.redirect('./');
 
-})
+		}); //closing writeFile
 
+	}); //closing readFile
+}); //closing app.post
 
-
-
+//------------DEFINING PORT 8080 FOR SERVER----------------------
+var server = app.listen(8080, () => {
+	console.log('http://localhost:' + server.address().port);
+});

@@ -1,5 +1,9 @@
+doctype html
 html
-	head
-		body
-			title This is our current userbase
-			p=allUsers
+	body
+		p This is our current userbase:
+		each user in users
+			p=user.firstname
+			p=user.lastname
+			p=user.email
+			p ...
