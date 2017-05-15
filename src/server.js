@@ -67,25 +67,29 @@ app.post('/search', function(req, res){
 
 	var allUsers = JSON.parse(data);
 	var query = req.body.searchfield;
+	var matchedUsers = [];
+
 	console.log("This is your seach request: "+query);
 
 	for (var i = 0; i < allUsers.length; i++) {
 		if (allUsers[i].firstname === query || allUsers[i].lastname === query){
 			
-			console.log("We found a matching user.")
-
-			var firstname = allUsers[i].firstname;
-			var lastname = allUsers[i].lastname;
-			var email = allUsers[i].email;
-			
-			res.render("results", {
-				user: [firstname, lastname, email]
-			})
-
-		} else {
-			res.send("No matching user found");
-		}	
+			matchedUsers.push({firstname: allUsers[i].firstname,
+								lastname: allUsers[i].lastname,
+								email: allUsers[i].email});
+		} 
 	}//closing for loop
+
+	console.log("Search result array created");
+
+	if(matchedUsers){
+		res.render("results", {
+			info: matchedUsers
+		})
+	}
+	else {
+		res.send("No matching user found");
+	}	
 
  	});//closing fs.readFile
 

@@ -2,6 +2,8 @@ doctype html
 html
 	body
 		p These are your matching users:
-		each info in user
-			p=info
-			p ...
+			each hit in info
+				p=hit.firstname
+				p=hit.lastname
+				p=hit.email
+				p ...
