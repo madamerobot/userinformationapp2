@@ -132,7 +132,9 @@ app.post('/addUser', function(req, res){
 
 	console.log("This is your new user "+(JSON.stringify(newUser)));
 
-		fs.writeFile('.././resources/users.json', (JSON.stringify(allUsers)) , (err, data) => {
+	var data = JSON.stringify(allUsers, null, 2);
+
+		fs.writeFile('.././resources/users.json', data , (err, data) => {
 
 		 if (err){
 			throw err;

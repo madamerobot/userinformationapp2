@@ -1,1 +1,52 @@
-[{"firstname":"Alexandre","lastname":"Marjan","email":"a.marjan@gmail.com"},{"firstname":"Alexandre","lastname":"Great","email":"a.marjan@gmail.com"},{"firstname":"Alexandre","lastname":"Random","email":"a.marjan@gmail.com"},{"firstname":"Ulysses","lastname":"Silvio","email":"silverspoon87@gmail.com"},{"firstname":"Viktor","lastname":"Gul","email":"viktor.rose@gmail.com"},{"firstname":"Kamalani","lastname":"Georgy","email":"georgy.porgy@gmail.com"},{"firstname":"Valerie","lastname":"Fuchs","email":"hi@hi.com"},{"firstname":"Daisy","lastname":"Duck","email":"hi@hi.com"},{"firstname":"Donald","lastname":"Duck","email":"hi@kiss.com"}]
+[
+  {
+    "firstname": "Alexandre",
+    "lastname": "Marjan",
+    "email": "a.marjan@gmail.com"
+  },
+  {
+    "firstname": "Alexandre",
+    "lastname": "Great",
+    "email": "a.marjan@gmail.com"
+  },
+  {
+    "firstname": "Alexandre",
+    "lastname": "Random",
+    "email": "a.marjan@gmail.com"
+  },
+  {
+    "firstname": "Ulysses",
+    "lastname": "Silvio",
+    "email": "silverspoon87@gmail.com"
+  },
+  {
+    "firstname": "Viktor",
+    "lastname": "Gul",
+    "email": "viktor.rose@gmail.com"
+  },
+  {
+    "firstname": "Kamalani",
+    "lastname": "Georgy",
+    "email": "georgy.porgy@gmail.com"
+  },
+  {
+    "firstname": "Valerie",
+    "lastname": "Fuchs",
+    "email": "hi@hi.com"
+  },
+  {
+    "firstname": "Daisy",
+    "lastname": "Duck",
+    "email": "hi@hi.com"
+  },
+  {
+    "firstname": "Donald",
+    "lastname": "Duck",
+    "email": "hi@kiss.com"
+  },
+  {
+    "firstname": "This",
+    "lastname": "Is",
+    "email": "Cool"
+  }
+]
