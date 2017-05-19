@@ -72,7 +72,7 @@ app.post('/search', function(req, res){
 	console.log("This is your seach request: "+query);
 
 	for (var i = 0; i < allUsers.length; i++) {
-		if (allUsers[i].firstname === query || allUsers[i].lastname === query){
+		if ((allUsers[i].firstname === query || allUsers[i].lastname === query) || (allUsers[i].firstname === query && allUsers[i].lastname === query)){
 			
 			matchedUsers.push({firstname: allUsers[i].firstname,
 								lastname: allUsers[i].lastname,
