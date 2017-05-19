@@ -100,7 +100,7 @@ app.post('/search', function(req, res){
 //allows you to add new users to the users.json file.
 
 app.get('/addUser', function(req, res){
-	res.render("addUser");
+	res.render("addusers");
 });
 
 // route 5: takes in the post request from the 'create user' form, then adds the user to 
