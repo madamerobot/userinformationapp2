@@ -1,3 +1,5 @@
+var searchresult = [];
+
 $(document).ready(function() {
     //Listening to key up event
     $("#searchfield").keyup(function () {
@@ -14,6 +16,10 @@ $(document).ready(function() {
 		data: {"input": value},
 		dataType: "text",
 		success: function(response){	
+		
+		// This is what the response looks like:
+		// [{"First name: ":"Valerie","Last name: ":"Fuchs","Email: ":"hi@hi.com"}]
+
 		console.log("This is the server's response to the AJAX request: "+response);
 		$('#results').text(response);
 		//Receiving the result of search here

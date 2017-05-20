@@ -66,23 +66,34 @@ app.post('/search', function(req, res){
 		}
 
 		var allUsers = JSON.parse(data);
+		var matchedUsers = [];
 
 		//Incoming data from JSON request
 		//req.body looks like {"input":"Daisy"}
 
 		var query = req.body.input;
-
-		var matchedUsers = [];
-
 		console.log("This is your search request: "+query);
 
+		// var test = 'Valerie Fuchs'.indexOf('Fu');
+		// //Result: 8
+
 		for (var i = 0; i < allUsers.length; i++) {
-			if (allUsers[i].firstname === query || allUsers[i].lastname === query || allUsers[i].firstname + allUsers[i].lastname === query){
+			//Check if input, e.g. "Va" === any two first letters of
+			//any object.firstname || object.lastname
+			var name = JSON.stringify(allUsers[i].firstname+" "+allUsers[i].lastname);
+			console.log('I am searching this string: '+name);
+
+					//"Valerie".indexOf("Va")
+			var index = name.indexOf(query);
+			console.log('I am finding '+query+' at index: '+index);
 				
-				matchedUsers.push({firstname: allUsers[i].firstname,
-									lastname: allUsers[i].lastname,
-									email: allUsers[i].email});
-			} 
+			if (index !== -1){
+				matchedUsers.push({
+				"First name: ": allUsers[i].firstname,
+				"Last name: ": allUsers[i].lastname,
+				"Email: ": allUsers[i].email
+				});
+			}
 		}//closing for loop
 
 		if(matchedUsers){
