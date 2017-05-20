@@ -1,7 +1,16 @@
 doctype html
 html
+	head
+		script
+			include ../../jquery-3.2.1.min.js
 	body
 		p Search for a user:
 		form(method='POST' action='/search')
-			input(type='text', placeholder='Your name', name='searchfield')
+			input(type='text', id='searchfield', placeholder='Your name', name='searchfield')
 			input(type='submit', value='Search for this user')
+		p(id='results')
+	script
+		include ../search.js
+
+
+

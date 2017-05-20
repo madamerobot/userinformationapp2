@@ -61,38 +61,41 @@ app.post('/search', function(req, res){
 	
 	fs.readFile('.././resources/users.json', 'utf-8', (err, data) => {
   	
-  	if (err){
-		throw err;
-	}
+	  	if (err){
+			throw err;
+		}
 
-	var allUsers = JSON.parse(data);
-	var query = req.body.searchfield;
-	var matchedUsers = [];
+		var allUsers = JSON.parse(data);
 
-	console.log("This is your seach request: "+query);
+		//Incoming data from JSON request
+		//req.body looks like {"input":"Daisy"}
 
-	for (var i = 0; i < allUsers.length; i++) {
-		if ((allUsers[i].firstname === query || allUsers[i].lastname === query) || (allUsers[i].firstname === query && allUsers[i].lastname === query)){
-			
-			matchedUsers.push({firstname: allUsers[i].firstname,
-								lastname: allUsers[i].lastname,
-								email: allUsers[i].email});
-		} 
-	}//closing for loop
+		var query = req.body.input;
 
-	console.log("Search result array created");
+		var matchedUsers = [];
 
-	if(matchedUsers){
-		res.render("results", {
-			info: matchedUsers
-		})
-	}
-	else {
-		res.send("No matching user found");
-	}	
+		console.log("This is your search request: "+query);
 
+		for (var i = 0; i < allUsers.length; i++) {
+			if (allUsers[i].firstname === query || allUsers[i].lastname === query || allUsers[i].firstname + allUsers[i].lastname === query){
+				
+				matchedUsers.push({firstname: allUsers[i].firstname,
+									lastname: allUsers[i].lastname,
+									email: allUsers[i].email});
+			} 
+		}//closing for loop
+
+		if(matchedUsers){
+			res.send(matchedUsers);
+			// res.render("results", {
+			// 	info: matchedUsers
+			// })
+		}
+		else {
+			res.send("No matching user found");
+		}	
+	
  	});//closing fs.readFile
-
 });//closing app.post
 
 // Part 2 Create two more routes:
