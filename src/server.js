@@ -89,9 +89,9 @@ app.post('/search', function(req, res){
 				
 			if (index !== -1){
 				matchedUsers.push({
-				"First name: ": allUsers[i].firstname,
-				"Last name: ": allUsers[i].lastname,
-				"Email: ": allUsers[i].email
+				firstname: allUsers[i].firstname,
+				lastname: allUsers[i].lastname,
+				email: allUsers[i].email
 				});
 			}
 		}//closing for loop
