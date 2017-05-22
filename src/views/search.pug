@@ -4,14 +4,30 @@ html
 		script
 			include ../../jquery-3.2.1.min.js
 	body
-		p Search for a user:
-		form(method='POST' action='/search')
-			input(type='text', id='searchfield', placeholder='Your name')
-			input(type='submit', value='Search for this user')
-		p(id='results')
+		form(action='/search', method=POST, autocomplete='off')
+			p Search for a user
+			input(type='text', list='suggestion', name='searchfield', id='searchfield')
+			datalist(id='suggestion')
+				option(value="" id="suggestionOne")
+				option(value="" id="suggestionTwo")
+			input(type='submit', value='Search')
 
-	script
-		include ../search.js
-
-
-
+	script.
+		$(document).ready(function (){
+			var findResults = function () {
+				//- var now = Date.now();
+				//- var buffer = now + 300;
+				$('#searchfield').keyup(function(){
+					$.post('/autocomplete', {input: $('#searchfield').val()}, function(matchedUsers){
+							if (matchedUsers[0] !== undefined){
+							console.log("test")
+							document.getElementById("suggestionOne").setAttribute("value", matchedUsers[0].firstname+" "+matchedUsers[0].lastname)
+							} if (matchedUsers[1] !== undefined){
+							console.log("test2")
+							document.getElementById("suggestionTwo").setAttribute("value", matchedUsers[1].firstname+" "+matchedUsers[1].lastname)
+							}
+					});
+				});
+			};
+			findResults();
+		});

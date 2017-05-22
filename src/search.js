@@ -23,7 +23,7 @@ $(document).ready(function() {
 		for (var i=0; i < responseobject.length; i++){
 			console.log("This is the server's response to the AJAX request: "+responseobject[i].firstname);
 			var searchresult = responseobject[i].firstname+" "+responseobject[i].lastname+" "+responseobject[i].email
-			$('#results').text(searchresult);
+			// $('#searchresult').value(searchresult);
 		}
 	
 		}//closing success function

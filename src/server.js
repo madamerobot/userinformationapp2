@@ -28,6 +28,7 @@ app.use(bodyParser.urlencoded({
 app.set('views', './views');
 app.set('view engine', 'pug');
 
+//------------ROUTES------------------
 // Part 0 Create one route:
 // route 1: renders a page that displays all your users.
 
@@ -53,11 +54,50 @@ app.get('/search', function(req, res){
 	res.render("search");
 })
 
-// route 3: takes in the post request from your form, then displays matching users on a 
+// Route 3a: takes in the post request from your form, then displays matching users on a 
 //new page. Users should be matched based on whether either their first or last name 
 //contains the input string.
 
-app.post('/search', function(req, res){
+app.post('/search', function(req,res) {
+
+fs.readFile('.././resources/users.json', 'utf-8', (err, data) => {
+  	
+	  	if (err){
+			throw err;
+		}
+
+		var allUsers = JSON.parse(data);
+		var matchedUsers = [];
+		var query = req.body.searchfield;
+		
+		console.log("This is your search request: "+query);
+
+		for (var i = 0; i < allUsers.length; i++) {
+		if (allUsers[i].firstname === query || allUsers[i].lastname === query){
+			
+			matchedUsers.push({firstname: allUsers[i].firstname,
+								lastname: allUsers[i].lastname,
+								email: allUsers[i].email});
+		} 
+	}//closing for loop
+
+	var userResults = JSON.stringify(matchedUsers);
+	console.log("Search result array created"+" "+userResults);
+
+	if(matchedUsers){
+		res.render("results", {
+			info: matchedUsers
+		});
+	} else {
+		res.send("No matching user found");
+	}	
+ 	});//closing fs.readFile
+
+});//closing app.post
+
+//Route 3b: Autocomplete search results
+
+app.post('/autocomplete', function(req, res){
 	
 	fs.readFile('.././resources/users.json', 'utf-8', (err, data) => {
   	
@@ -98,13 +138,7 @@ app.post('/search', function(req, res){
 
 		if(matchedUsers){
 			res.send(matchedUsers);
-			// res.render("results", {
-			// 	info: matchedUsers
-			// })
 		}
-		else {
-			res.send("No matching user found");
-		}	
 	
  	});//closing fs.readFile
 });//closing app.post
