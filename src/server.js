@@ -70,10 +70,10 @@ fs.readFile('.././resources/users.json', 'utf-8', (err, data) => {
 		var matchedUsers = [];
 		var query = req.body.searchfield;
 		
-		console.log("This is your search request: "+query);
+		console.log("SEARCH: This is your search request: "+query);
 
 		for (var i = 0; i < allUsers.length; i++) {
-		if (allUsers[i].firstname === query || allUsers[i].lastname === query){
+		if ((allUsers[i].firstname === query || allUsers[i].lastname === query) || (allUsers[i].firstname+" "+allUsers[i].lastname === query)){
 			
 			matchedUsers.push({firstname: allUsers[i].firstname,
 								lastname: allUsers[i].lastname,
@@ -82,14 +82,14 @@ fs.readFile('.././resources/users.json', 'utf-8', (err, data) => {
 	}//closing for loop
 
 	var userResults = JSON.stringify(matchedUsers);
-	console.log("Search result array created"+" "+userResults);
+	console.log("SEARCH: Search result array created"+" "+userResults);
 
 	if(matchedUsers){
 		res.render("results", {
 			info: matchedUsers
 		});
 	} else {
-		res.send("No matching user found");
+		res.send("SEARCH: No matching user found");
 	}	
  	});//closing fs.readFile
 
@@ -112,7 +112,7 @@ app.post('/autocomplete', function(req, res){
 		//req.body looks like {"input":"Daisy"}
 
 		var query = req.body.input;
-		console.log("This is your search request: "+query);
+		console.log("AJAX: This is your search request: "+query);
 
 		// var test = 'Valerie Fuchs'.indexOf('Fu');
 		// //Result: 8
@@ -121,11 +121,11 @@ app.post('/autocomplete', function(req, res){
 			//Check if input, e.g. "Va" === any two first letters of
 			//any object.firstname || object.lastname
 			var name = JSON.stringify(allUsers[i].firstname+" "+allUsers[i].lastname);
-			console.log('I am searching this string: '+name);
+			console.log("AJAX: I am searching this string: "+name);
 
 					//"Valerie".indexOf("Va")
 			var index = name.indexOf(query);
-			console.log('I am finding '+query+' at index: '+index);
+			console.log("AJAX: I am finding "+query+"at index: "+index);
 				
 			if (index !== -1){
 				matchedUsers.push({
@@ -133,10 +133,12 @@ app.post('/autocomplete', function(req, res){
 				lastname: allUsers[i].lastname,
 				email: allUsers[i].email
 				});
-			}
+			} 
+			console.log("AJAX: I can see these users:"+matchedUsers);
 		}//closing for loop
 
 		if(matchedUsers){
+			console.log("AJAX: Yep, also sending the users over")
 			res.send(matchedUsers);
 		}
 	
