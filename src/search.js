@@ -7,8 +7,9 @@ $(document).ready(function() {
 
     console.log("I'm starting the AJAX request now.")
 	
-	// //Date.now logic - FILL IN 
-	// setTimeout(ajaxrequest, 3000);
+	//Break of 3000 ms to limit number of AJAX requests
+	var now = Date.now();
+	var buffer = now + 3000;
 	
 	$.ajax({
 		type: "POST",
@@ -18,18 +19,16 @@ $(document).ready(function() {
 		success: function(response){	
 				
 		var responseobject = JSON.parse(response);
-		var input = $("#searchfield");
 	
 		for (var i=0; i < responseobject.length; i++){
-			console.log("This is the server's response to the AJAX request: "+responseobject[i]);
-			var searchresult = responseobject[i].firstname+" "+responseobject[i].lastname
-			$('#searchfield').append(searchresult);
+			console.log("This is the server's response to the AJAX request: "+responseobject[i].firstname);
+			var searchresult = responseobject[i].firstname+" "+responseobject[i].lastname+" "+responseobject[i].email
+			$('#results').text(searchresult);
 		}
 	
 		}//closing success function
 	});//closing ajax
 	});//cosing searchfield keyup
-
 });//cosing document ready
 
 
