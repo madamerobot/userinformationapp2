@@ -48,5 +48,10 @@
     "firstname": "This",
     "lastname": "Is",
     "email": "Cool"
+  },
+  {
+    "firstname": "Hello",
+    "lastname": "Kitty",
+    "email": "miau@kitten.com"
   }
 ]
