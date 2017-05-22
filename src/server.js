@@ -28,6 +28,7 @@ app.use(bodyParser.urlencoded({
 app.set('views', './views');
 app.set('view engine', 'pug');
 
+//------------ROUTES------------------
 // Part 0 Create one route:
 // route 1: renders a page that displays all your users.
 
@@ -53,26 +54,26 @@ app.get('/search', function(req, res){
 	res.render("search");
 })
 
-// route 3: takes in the post request from your form, then displays matching users on a 
+// Route 3a: takes in the post request from your form, then displays matching users on a 
 //new page. Users should be matched based on whether either their first or last name 
 //contains the input string.
 
-app.post('/search', function(req, res){
-	
-	fs.readFile('.././resources/users.json', 'utf-8', (err, data) => {
+app.post('/search', function(req,res) {
+
+fs.readFile('.././resources/users.json', 'utf-8', (err, data) => {
   	
-  	if (err){
-		throw err;
-	}
+	  	if (err){
+			throw err;
+		}
 
-	var allUsers = JSON.parse(data);
-	var query = req.body.searchfield;
-	var matchedUsers = [];
+		var allUsers = JSON.parse(data);
+		var matchedUsers = [];
+		var query = req.body.searchfield;
+		
+		console.log("SEARCH: This is your search request: "+query);
 
-	console.log("This is your seach request: "+query);
-
-	for (var i = 0; i < allUsers.length; i++) {
-		if ((allUsers[i].firstname === query || allUsers[i].lastname === query) || (allUsers[i].firstname === query && allUsers[i].lastname === query)){
+		for (var i = 0; i < allUsers.length; i++) {
+		if ((allUsers[i].firstname === query || allUsers[i].lastname === query) || (allUsers[i].firstname+" "+allUsers[i].lastname === query)){
 			
 			matchedUsers.push({firstname: allUsers[i].firstname,
 								lastname: allUsers[i].lastname,
@@ -80,19 +81,68 @@ app.post('/search', function(req, res){
 		} 
 	}//closing for loop
 
-	console.log("Search result array created");
+	var userResults = JSON.stringify(matchedUsers);
+	console.log("SEARCH: Search result array created"+" "+userResults);
 
 	if(matchedUsers){
 		res.render("results", {
 			info: matchedUsers
-		})
-	}
-	else {
-		res.send("No matching user found");
+		});
+	} else {
+		res.send("SEARCH: No matching user found");
 	}	
-
  	});//closing fs.readFile
 
+});//closing app.post
+
+//Route 3b: Autocomplete search results
+
+app.post('/autocomplete', function(req, res){
+	
+	fs.readFile('.././resources/users.json', 'utf-8', (err, data) => {
+  	
+	  	if (err){
+			throw err;
+		}
+
+		var allUsers = JSON.parse(data);
+		var matchedUsers = [];
+
+		//Incoming data from JSON request
+		//req.body looks like {"input":"Daisy"}
+
+		var query = req.body.input;
+		console.log("AJAX: This is your search request: "+query);
+
+		// var test = 'Valerie Fuchs'.indexOf('Fu');
+		// //Result: 8
+
+		for (var i = 0; i < allUsers.length; i++) {
+			//Check if input, e.g. "Va" === any two first letters of
+			//any object.firstname || object.lastname
+			var name = JSON.stringify(allUsers[i].firstname+" "+allUsers[i].lastname);
+			console.log("AJAX: I am searching this string: "+name);
+
+					//"Valerie".indexOf("Va")
+			var index = name.indexOf(query);
+			console.log("AJAX: I am finding "+query+"at index: "+index);
+				
+			if (index !== -1){
+				matchedUsers.push({
+				firstname: allUsers[i].firstname,
+				lastname: allUsers[i].lastname,
+				email: allUsers[i].email
+				});
+			} 
+			console.log("AJAX: I can see these users:"+matchedUsers);
+		}//closing for loop
+
+		if(matchedUsers){
+			console.log("AJAX: Yep, also sending the users over")
+			res.send(matchedUsers);
+		}
+	
+ 	});//closing fs.readFile
 });//closing app.post
 
 // Part 2 Create two more routes:
