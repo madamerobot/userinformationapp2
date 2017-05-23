@@ -150,7 +150,7 @@ app.post('/autocomplete', function(req, res){
 //allows you to add new users to the users.json file.
 
 app.get('/addUser', function(req, res){
-	res.render("addusers");
+	res.render("adduser");
 });
 
 // route 5: takes in the post request from the 'create user' form, then adds the user to 
