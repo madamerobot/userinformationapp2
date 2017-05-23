@@ -28,10 +28,8 @@ html
 
 					$.post('/autocomplete', {input: $('#searchfield').val()}, function(matchedUsers){
 							if (matchedUsers[0] !== undefined){
-							console.log("test")
 							document.getElementById("suggestionOne").setAttribute("value", matchedUsers[0].firstname+" "+matchedUsers[0].lastname)
 							} if (matchedUsers[1] !== undefined){
-							console.log("test2")
 							document.getElementById("suggestionTwo").setAttribute("value", matchedUsers[1].firstname+" "+matchedUsers[1].lastname)
 							}
 					});//closing post request
