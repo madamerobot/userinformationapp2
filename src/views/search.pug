@@ -1,11 +1,13 @@
 doctype html
 html
 	head
+		style
+			include ../style/search.css
 		script
 			include ../../jquery-3.2.1.min.js
 	body
 		form(action='/search', method='POST', autocomplete='off')
-			p Search for a user
+			p(id="test") Search for a user
 			input(type='text', list='suggestion', name='searchfield', id='searchfield')
 			datalist(id='suggestion')
 				option(value="" id="suggestionOne")
@@ -14,10 +16,16 @@ html
 
 	script.
 		$(document).ready(function (){
+
+			var lastexecution = 0;
+			
 			var findResults = function () {
-				//- var now = Date.now();
-				//- var buffer = now + 300;
+
 				$('#searchfield').keyup(function(){
+					
+					if(Date.now()>lastexecution+300){
+					lastexecution = Date.now();
+
 					$.post('/autocomplete', {input: $('#searchfield').val()}, function(matchedUsers){
 							if (matchedUsers[0] !== undefined){
 							console.log("test")
@@ -26,8 +34,11 @@ html
 							console.log("test2")
 							document.getElementById("suggestionTwo").setAttribute("value", matchedUsers[1].firstname+" "+matchedUsers[1].lastname)
 							}
-					});
-				});
-			};
+					});//closing post request
+					lastexecution = Date.now();
+					console.log("Request got executed last at: "+lastexecution);
+					}//closing if statement
+				});//closing searchfield keyup
+			};//closing findResults
 			findResults();
-		});
+		});//closing document.ready
