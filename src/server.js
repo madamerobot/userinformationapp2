@@ -73,8 +73,7 @@ fs.readFile('.././resources/users.json', 'utf-8', (err, data) => {
 		console.log("SEARCH: This is your search request: "+query);
 
 		for (var i = 0; i < allUsers.length; i++) {
-		if ((allUsers[i].firstname === query || allUsers[i].lastname === query) || (allUsers[i].firstname+" "+allUsers[i].lastname === query)){
-			
+		if ((allUsers[i].firstname === query || allUsers[i].lastname === query) || (allUsers[i].firstname+" "+allUsers[i].lastname === query)){		
 			matchedUsers.push({firstname: allUsers[i].firstname,
 								lastname: allUsers[i].lastname,
 								email: allUsers[i].email});
